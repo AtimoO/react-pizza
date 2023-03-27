@@ -9,16 +9,14 @@ const mokeCategories = [
   'Закрытые',
 ];
 
-const Categories = () => {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-
+const Categories = ({ value, onClickCategory }) => {
   return (
     <div className="categories">
       <ul>
         {mokeCategories.map((category, index) => (
           <li
-            onClick={() => setActiveIndex(index)}
-            className={activeIndex === index ? 'active' : ''}
+            onClick={() => onClickCategory(index)}
+            className={value === index ? 'active' : ''}
             key={index}
           >
             {category}
