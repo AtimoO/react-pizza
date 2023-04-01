@@ -9,8 +9,8 @@
     align-items: center;
     justify-content: space-between;
 
-    @media screen and (max-width: 768px) {
-      flex-direction: column-reverse;
+    @media screen and (max-width: 880px) {
+      flex-direction: column;
       row-gap: 20px
     }
   }
@@ -20,6 +20,7 @@
 
     img {
       margin-right: 15px;
+      width: 38px;
     }
 
     h1 {
