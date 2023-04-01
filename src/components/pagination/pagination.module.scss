@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  margin: 20px;
+}
+
+.root {
+  li {
+    display: inline-flex;
+    margin-left: 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    a {
+      color: #fe5f1e;
+      display: inline-flex;
+
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 42px;
+      border: 1px solid #fe5f1e;
+      border-radius: 30px;
+      font-size: 12px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #fe5f1e;
+        color: #ffff;
+      }
+    }
+  }
+
+  :global {
+    .selected {
+      a {
+        background-color: #fe5f1e;
+        color: #ffff;
+      }
+    }
+
+    .disabled {
+      a {
+        background-color: #d69378;
+        border: 1px solid #d69378;
+        color: #ffff;
+
+        &:hover {
+          cursor: default;
+          background-color: #d69378;
+          border: 1px solid #d69378;
+        }
+      }
+    }
+  }
+}

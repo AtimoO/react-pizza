@@ -13,8 +13,9 @@ export const MainPage = ({ searchValue }) => {
     name: 'популярности',
     sortProperty: 'rating',
   });
-
   const [sorting, setSorting] = React.useState('asc');
+  const [currentPage, setCurrentPage] = React.useState(1);
+
   const pizzas = items.map((pizza, index) => (
     <PizzaItem key={index} {...pizza} />
   ));
@@ -33,7 +34,7 @@ export const MainPage = ({ searchValue }) => {
     const urlSearch = searchValue === '' ? '' : `search=${searchValue}&`;
 
     fetch(
-      `https://642008d025cb657210411d98.mockapi.io/items?${urlSearch}${urlCategory}sortBy=${sortType.sortProperty}&order=${sorting}`,
+      `https://642008d025cb657210411d98.mockapi.io/items?page=${currentPage}&limit=4&${urlSearch}${urlCategory}sortBy=${sortType.sortProperty}&order=${sorting}`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -42,7 +43,7 @@ export const MainPage = ({ searchValue }) => {
       });
 
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, sorting, searchValue]);
+  }, [categoryId, sortType, sorting, searchValue, currentPage]);
 
   return (
     <div className="container">
@@ -66,7 +67,7 @@ export const MainPage = ({ searchValue }) => {
             ))
           : pizzas}
       </div>
-      <Pagination />
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
