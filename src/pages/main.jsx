@@ -1,11 +1,13 @@
 import React from 'react';
+import { AppContext } from '../components/app/app';
 import Categories from '../components/categories/categories';
 import PizzaItem from '../components/pizza-item/pizza-item';
 import SkeletonPizzaItem from '../components/pizza-item/skeleton-pizza-Item';
 import Sort from '../components/sort/sort';
 import Pagination from '../components/pagination/pagination';
 
-export const MainPage = ({ searchValue }) => {
+export const MainPage = () => {
+  const { searchValue } = React.useContext(AppContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
