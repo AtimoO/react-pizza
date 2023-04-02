@@ -1,25 +1,31 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortRanking, setSortType } from '../../services/slices/sortSlice';
 
-const Sort = ({ value, onClickSort, sorting, onClickSorting }) => {
+const listSort = [
+  {
+    name: 'популярности',
+    sortProperty: 'rating',
+  },
+  {
+    name: 'цене',
+    sortProperty: 'price',
+  },
+  {
+    name: 'алфавиту',
+    sortProperty: 'title',
+  },
+];
+
+const Sort = () => {
+  const { sortRanking, sortType } = useSelector((state) => state.sort);
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const listSort = [
-    {
-      name: 'популярности',
-      sortProperty: 'rating',
-    },
-    {
-      name: 'цене',
-      sortProperty: 'price',
-    },
-    {
-      name: 'алфавиту',
-      sortProperty: 'title',
-    },
-  ];
-
-  const handlerClickSort = (index) => {
-    onClickSort(index);
+  const handlerClickSort = (objType) => {
+    console.log(objType);
+    dispatch(setSortType(objType));
     setIsOpen(false);
   };
 
@@ -28,8 +34,8 @@ const Sort = ({ value, onClickSort, sorting, onClickSorting }) => {
       <div className="sort__label">
         <svg
           onClick={() => {
-            const type = sorting === 'asc' ? 'desc' : 'asc';
-            onClickSorting(type);
+            const type = sortRanking === 'asc' ? 'desc' : 'asc';
+            dispatch(setSortRanking(type));
           }}
           width="10"
           height="6"
@@ -37,7 +43,7 @@ const Sort = ({ value, onClickSort, sorting, onClickSorting }) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           transform={
-            sorting === 'asc'
+            sortRanking === 'asc'
               ? 'matrix(-1,1.2246467991473532e-16,-1.2246467991473532e-16,-1,0,0)'
               : ''
           }
@@ -48,7 +54,7 @@ const Sort = ({ value, onClickSort, sorting, onClickSorting }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{value.name}</span>
+        <span onClick={() => setIsOpen(!isOpen)}>{sortType.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
@@ -58,7 +64,7 @@ const Sort = ({ value, onClickSort, sorting, onClickSorting }) => {
                 key={objSort.name}
                 onClick={() => handlerClickSort(objSort)}
                 className={
-                  objSort.sortProperty === value.sortProperty ? 'active' : ''
+                  objSort.sortProperty === sortType.sortProperty ? 'active' : ''
                 }
               >
                 {objSort.name}

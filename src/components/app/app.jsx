@@ -15,13 +15,13 @@ function App() {
       <AppContext.Provider value={{ searchValue, setSearchValue }}>
         <Header />
 
-        <div className="content">
+        <main className="content">
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
+        </main>
       </AppContext.Provider>
     </div>
   );
