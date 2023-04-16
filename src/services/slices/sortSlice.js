@@ -26,10 +26,21 @@ const sortSlice = createSlice({
     setPageCount(state, actions) {
       state.currnetPage = actions.payload;
     },
+    setFilters(state, actions) {
+      state.categoryId = Number(actions.payload.category);
+      state.currnetPage = Number(actions.payload.page);
+      state.sortType = actions.payload.sortBy;
+      state.sortRanking = actions.payload.order;
+    },
   },
 });
 
-export const { setCategory, setSortRanking, setSortType, setPageCount } =
-  sortSlice.actions;
+export const {
+  setCategory,
+  setSortRanking,
+  setSortType,
+  setPageCount,
+  setFilters,
+} = sortSlice.actions;
 
 export default sortSlice.reducer;
