@@ -104,7 +104,7 @@ export const MainPage = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(8)].map((_, index) => (
+          ? [...new Array(4)].map((_, index) => (
               <SkeletonPizzaItem key={index} />
             ))
           : pizzas}

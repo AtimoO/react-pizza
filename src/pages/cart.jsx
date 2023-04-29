@@ -1,36 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import imgCartEmpty from '../assets/images/empty-cart.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearItems } from '../services/slices/cartSlice';
+import CartItem from '../components/cart-item/cart-item';
+import CartEmpty from '../components/cart-empty/cart-empty';
 
 export const CartPage = () => {
-  const mokePizzas = [
-    {
-      name: 'Сырный цыпленок',
-      type: 0,
-      size: 26,
-      count: 2,
-      price: 770,
-      imageUrl:
-        'https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg',
-    },
-    {
-      name: 'Барбекю',
-      type: 1,
-      size: 32,
-      count: 1,
-      price: 550,
-      imageUrl:
-        'https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg',
-    },
-  ];
+  const dispatch = useDispatch();
+  const { items, totalPrice } = useSelector((state) => state.cart);
 
-  const typeNames = ['тонкое', 'традиционное'];
+  const totalCount = items.reduce((prev, curr) => {
+    return prev + curr.count;
+  }, 0);
+
+  const handlerClearCart = () => {
+    if (window.confirm('Вы уверены что хотите очистить корзину?')) {
+      dispatch(clearItems());
+    }
+  };
 
   return (
     <div className="content">
       <div className="container container--cart">
-        {mokePizzas.length ? (
+        {items.length > 0 ? (
           <div className="cart">
             <div className="cart__top">
               <h2 className="content__title">
@@ -65,7 +57,7 @@ export const CartPage = () => {
                 </svg>
                 Корзина
               </h2>
-              <div className="cart__clear">
+              <div className="cart__clear" onClick={handlerClearCart}>
                 <svg
                   width="20"
                   height="20"
@@ -106,93 +98,17 @@ export const CartPage = () => {
               </div>
             </div>
             <div className="content__items">
-              {mokePizzas.map((pizza, index) => (
-                <div key={index} className="cart__item">
-                  <div className="cart__item-img">
-                    <img
-                      className="pizza-block__image"
-                      src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                      alt="Pizza"
-                    />
-                  </div>
-                  <div className="cart__item-info">
-                    <h3>{pizza.name}</h3>
-                    <p>
-                      {typeNames[pizza.type]} тесто, {pizza.size} см.
-                    </p>
-                  </div>
-                  <div className="cart__item-count">
-                    <div className="button button--outline button--circle cart__item-count-minus">
-                      <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                          fill="#EB5A1E"
-                        />
-                        <path
-                          d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                          fill="#EB5A1E"
-                        />
-                      </svg>
-                    </div>
-                    <b>{pizza.count}</b>
-                    <div className="button button--outline button--circle cart__item-count-plus">
-                      <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                          fill="#EB5A1E"
-                        />
-                        <path
-                          d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                          fill="#EB5A1E"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="cart__item-price">
-                    <b>{pizza.price * pizza.count} ₽</b>
-                  </div>
-                  <div className="cart__item-remove">
-                    <div className="button button--outline button--circle">
-                      <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                          fill="#EB5A1E"
-                        />
-                        <path
-                          d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                          fill="#EB5A1E"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+              {items.map((pizza, index) => (
+                <CartItem {...pizza} key={index} />
               ))}
             </div>
             <div className="cart__bottom">
               <div className="cart__bottom-details">
                 <span>
-                  Всего пицц: <b>3 шт.</b>
+                  Всего пицц: <b>{totalCount} шт.</b>
                 </span>
                 <span>
-                  Сумма заказа: <b>900 ₽</b>
+                  Сумма заказа: <b>{totalPrice} ₽</b>
                 </span>
               </div>
               <div className="cart__bottom-buttons">
@@ -225,20 +141,7 @@ export const CartPage = () => {
             </div>
           </div>
         ) : (
-          <div className="cart cart--empty">
-            <h2>
-              Корзина пустая <span>😕</span>
-            </h2>
-            <p>
-              Вероятней всего, вы не заказывали ещё пиццу.
-              <br />
-              Для того, чтобы заказать пиццу, перейди на главную страницу.
-            </p>
-            <img src={imgCartEmpty} alt="Empty cart" />
-            <Link to="/" className="button button--black">
-              <span>Вернуться назад</span>
-            </Link>
-          </div>
+          <CartEmpty />
         )}
       </div>
     </div>

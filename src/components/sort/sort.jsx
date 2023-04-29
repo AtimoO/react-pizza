@@ -18,19 +18,29 @@ const listSort = [
 ];
 
 const Sort = () => {
-  const { sortRanking, sortType } = useSelector((state) => state.sort);
   const dispatch = useDispatch();
+  const { sortRanking, sortType } = useSelector((state) => state.sort);
+  const sortRef = React.useRef(null);
 
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handlerClickSort = (objType) => {
-    console.log(objType);
     dispatch(setSortType(objType));
     setIsOpen(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.composedPath().includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           onClick={() => {
