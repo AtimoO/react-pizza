@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -15,19 +14,19 @@ import SkeletonPizzaItem from '../components/pizza-item/skeleton-pizza-Item';
 import Sort from '../components/sort/sort';
 import Pagination from '../components/pagination/pagination';
 import { useNavigate } from 'react-router-dom';
+import { fetchPizzas } from '../services/slices/pizzaSlice';
 
 export const MainPage = () => {
+  const dispatch = useDispatch();
   const { categoryId, sortRanking, sortType, currnetPage } = useSelector(
     (state) => state.sort,
   );
-  const dispatch = useDispatch();
+  const { items, status } = useSelector((state) => state.pizza);
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
   const { searchValue } = React.useContext(AppContext);
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   let showLimitPizzas = 4;
 
   const pizzas = items.map((pizza, index) => (
@@ -41,19 +40,20 @@ export const MainPage = () => {
   // )
   // .map((pizza, index) => <PizzaItem key={index} {...pizza} />);
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const urlCategory = categoryId === 0 ? '' : `category=${categoryId}&`;
     const urlSearch = searchValue === '' ? '' : `search=${searchValue}&`;
-    axios
-      .get(
-        `https://642008d025cb657210411d98.mockapi.io/items?page=${currnetPage}&limit=${showLimitPizzas}&${urlSearch}${urlCategory}sortBy=${sortType.sortProperty}&order=${sortRanking}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+
+    dispatch(
+      fetchPizzas({
+        currnetPage,
+        showLimitPizzas,
+        urlSearch,
+        urlCategory,
+        sortProperty: sortType.sortProperty,
+        sortRanking,
+      }),
+    );
   };
 
   const onChangePage = (number) => {
@@ -72,7 +72,7 @@ export const MainPage = () => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -92,6 +92,14 @@ export const MainPage = () => {
     isMounted.current = true;
   }, [categoryId, sortType, sortRanking, searchValue, currnetPage]);
 
+  if (status === 'error') {
+    return (
+      <>
+        <h2>Произошла ошибка!</h2>
+      </>
+    );
+  }
+
   return (
     <div className="container">
       <div className="content__top">
@@ -103,8 +111,8 @@ export const MainPage = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? [...new Array(4)].map((_, index) => (
+        {status === 'loading'
+          ? [...new Array(showLimitPizzas)].map((_, index) => (
               <SkeletonPizzaItem key={index} />
             ))
           : pizzas}
