@@ -1,17 +1,19 @@
 import React from 'react';
-import { AppContext } from '../app/app';
 import debounce from 'lodash.debounce';
 
 import styles from './search.module.scss';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../services/slices/sortSlice';
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(AppContext);
+  const dispatch = useDispatch();
+  // const { searchValue } = useSelector(selectSort);
   const [value, setValue] = React.useState('');
   const inputRef = React.useRef(null);
 
   const onClickClear = () => {
     setValue('');
-    searchValue('');
+    dispatch(setSearchValue(''));
 
     // из-за анимации
     setTimeout(() => {
@@ -22,7 +24,7 @@ const Search = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = React.useCallback(
     debounce((value) => {
-      setSearchValue(value);
+      dispatch(setSearchValue(value));
     }, 300),
     [],
   );

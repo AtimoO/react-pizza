@@ -3,7 +3,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPizzas = createAsyncThunk(
   'pizzas/fetchItems',
-  async (params) => {
+  async (params, thunkApi) => {
+    // thunkApi - позволяет использовать внутри этой ф-ии dispatch - не только этого слайса, но и других
+    // можно узнать предыдуший стейт до выполнения thunkApi.getState();
+    // можно остановить запрос с помощью abort...и signal
     const {
       currnetPage,
       showLimitPizzas,
@@ -47,6 +50,8 @@ const pizzaSlice = createSlice({
     },
   },
 });
+
+export const selectPizza = (state) => state.pizza;
 
 export const { setItems } = pizzaSlice.actions;
 

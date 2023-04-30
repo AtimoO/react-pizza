@@ -3,30 +3,28 @@ import React from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  selectSort,
   setCategory,
   setFilters,
   setPageCount,
 } from '../services/slices/sortSlice';
-import { AppContext } from '../components/app/app';
 import Categories from '../components/categories/categories';
 import PizzaItem from '../components/pizza-item/pizza-item';
 import SkeletonPizzaItem from '../components/pizza-item/skeleton-pizza-Item';
 import Sort from '../components/sort/sort';
 import Pagination from '../components/pagination/pagination';
 import { useNavigate } from 'react-router-dom';
-import { fetchPizzas } from '../services/slices/pizzaSlice';
+import { fetchPizzas, selectPizza } from '../services/slices/pizzaSlice';
 
 export const MainPage = () => {
   const dispatch = useDispatch();
-  const { categoryId, sortRanking, sortType, currnetPage } = useSelector(
-    (state) => state.sort,
-  );
-  const { items, status } = useSelector((state) => state.pizza);
+  const { categoryId, sortRanking, sortType, currnetPage, searchValue } =
+    useSelector(selectSort);
+  const { items, status } = useSelector(selectPizza);
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { searchValue } = React.useContext(AppContext);
   let showLimitPizzas = 4;
 
   const pizzas = items.map((pizza, index) => (

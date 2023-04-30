@@ -1,6 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortRanking, setSortType } from '../../services/slices/sortSlice';
+import {
+  selectSort,
+  setSortRanking,
+  setSortType,
+} from '../../services/slices/sortSlice';
 
 const listSort = [
   {
@@ -19,7 +23,7 @@ const listSort = [
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const { sortRanking, sortType } = useSelector((state) => state.sort);
+  const { sortRanking, sortType } = useSelector(selectSort);
   const sortRef = React.useRef(null);
 
   const [isOpen, setIsOpen] = React.useState(false);
