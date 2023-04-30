@@ -1,9 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, selectCartItemById } from '../../services/slices/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItem = useSelector(selectCartItemById(id));
   const [activeType, setActiveType] = React.useState(types[0] === 1 ? 1 : 0);
   const [activeSize, setActiveSize] = React.useState(0);
@@ -22,9 +24,18 @@ const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
     dispatch(addItem(item));
   };
 
+  const clickOnPizza = () => {
+    navigate(`/pizza-item/${id}`);
+  };
+
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <img
+        onClick={clickOnPizza}
+        className="pizza-block__image"
+        src={imageUrl}
+        alt="Pizza"
+      />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
