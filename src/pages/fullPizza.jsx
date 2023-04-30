@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const FullPizza = () => {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,11 +16,12 @@ export const FullPizza = () => {
         setData(data);
       } catch (error) {
         console.log(error);
+        navigate('/');
       }
     };
 
     fetchItem();
-  }, [id]);
+  }, [id, navigate]);
 
   if (!data) {
     return <h2>Нет данных!</h2>;
