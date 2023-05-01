@@ -1,15 +1,15 @@
-import React from 'react';
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import logoPizza from '../../assets/images/pizza-logo.svg';
 import Search from '../search/search';
 import { selectCart } from '../../services/slices/cartSlice';
 
-const Header = () => {
+const Header: FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
   const { pathname } = useLocation();
 
-  const totalCount = items.reduce((prev, curr) => {
+  const totalCount = items.reduce((prev: number, curr: any) => {
     return prev + curr.count;
   }, 0);
 

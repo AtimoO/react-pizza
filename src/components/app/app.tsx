@@ -1,11 +1,10 @@
-import React from 'react';
 import { CartPage, MainPage, NotFound, FullPizza } from '../../pages';
 import { Route, Routes } from 'react-router-dom';
-
-import '../../scss/app.scss';
 import Layouts from '../layouts/layouts';
 
-function App() {
+import '../../scss/app.scss';
+
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layouts />}>
@@ -16,6 +15,6 @@ function App() {
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;

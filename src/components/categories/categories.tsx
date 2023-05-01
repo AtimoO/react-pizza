@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 const mokeCategories = [
   'Все',
@@ -9,7 +9,12 @@ const mokeCategories = [
   'Закрытые',
 ];
 
-const Categories = ({ value, onClickCategory }) => {
+interface ICategoriesProps {
+  value: number;
+  onClickCategory: (id: number) => any;
+}
+
+const Categories: FC<ICategoriesProps> = ({ value, onClickCategory }) => {
   return (
     <div className="categories">
       <ul>

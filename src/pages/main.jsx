@@ -18,7 +18,7 @@ import { fetchPizzas, selectPizza } from '../services/slices/pizzaSlice';
 
 export const MainPage = () => {
   const dispatch = useDispatch();
-  const { categoryId, sortRanking, sortType, currnetPage, searchValue } =
+  const { categoryId, sortRanking, sortType, currentPage, searchValue } =
     useSelector(selectSort);
   const { items, status } = useSelector(selectPizza);
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export const MainPage = () => {
 
     dispatch(
       fetchPizzas({
-        currnetPage,
+        currentPage,
         showLimitPizzas,
         urlSearch,
         urlCategory,
@@ -74,13 +74,13 @@ export const MainPage = () => {
     }
 
     isSearch.current = false;
-  }, [categoryId, sortType, sortRanking, searchValue, currnetPage]);
+  }, [categoryId, sortType, sortRanking, searchValue, currentPage]);
 
   React.useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
         category: categoryId,
-        page: currnetPage,
+        page: currentPage,
         sortBy: sortType,
         order: sortRanking,
       });
@@ -88,7 +88,7 @@ export const MainPage = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sortType, sortRanking, searchValue, currnetPage]);
+  }, [categoryId, sortType, sortRanking, searchValue, currentPage]);
 
   if (status === 'error') {
     return (
@@ -115,7 +115,7 @@ export const MainPage = () => {
             ))
           : pizzas}
       </div>
-      <Pagination currnetPage={currnetPage} onChangePage={onChangePage} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };

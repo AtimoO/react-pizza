@@ -8,7 +8,7 @@ export const fetchPizzas = createAsyncThunk(
     // можно узнать предыдуший стейт до выполнения thunkApi.getState();
     // можно остановить запрос с помощью abort...и signal
     const {
-      currnetPage,
+      currentPage,
       showLimitPizzas,
       urlSearch,
       urlCategory,
@@ -16,7 +16,7 @@ export const fetchPizzas = createAsyncThunk(
       sortRanking,
     } = params;
     const { data } = await axios.get(
-      `https://642008d025cb657210411d98.mockapi.io/items?page=${currnetPage}&limit=${showLimitPizzas}&${urlSearch}${urlCategory}sortBy=${sortProperty}&order=${sortRanking}`,
+      `https://642008d025cb657210411d98.mockapi.io/items?page=${currentPage}&limit=${showLimitPizzas}&${urlSearch}${urlCategory}sortBy=${sortProperty}&order=${sortRanking}`,
     );
     return data;
   },

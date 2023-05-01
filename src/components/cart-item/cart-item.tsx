@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   addItem,
@@ -6,7 +6,25 @@ import {
   removeItem,
 } from '../../services/slices/cartSlice';
 
-const CartItem = ({ id, title, imageUrl, type, size, count, price }) => {
+interface ICartProps {
+  id: string;
+  imageUrl: string;
+  title: string;
+  type: number;
+  size: number;
+  price: number;
+  count: number;
+}
+
+const CartItem: FC<ICartProps> = ({
+  id,
+  title,
+  imageUrl,
+  type,
+  size,
+  count,
+  price,
+}) => {
   const dispatch = useDispatch();
 
   const handlerAdd = () => {

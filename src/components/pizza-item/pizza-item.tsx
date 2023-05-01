@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, selectCartItemById } from '../../services/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import { IPizza } from '../../utils/types';
 
-const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
+const PizzaItem: FC<IPizza> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItem = useSelector(selectCartItemById(id));
@@ -15,11 +23,11 @@ const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
   const handlerAddItem = () => {
     const item = {
       id,
-      title,
-      price,
       imageUrl,
-      size: sizes[activeSize],
+      title,
       type: typeNames[activeType],
+      size: sizes[activeSize],
+      price,
     };
     dispatch(addItem(item));
   };

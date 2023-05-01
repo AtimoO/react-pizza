@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSort,
@@ -6,7 +6,12 @@ import {
   setSortType,
 } from '../../services/slices/sortSlice';
 
-const listSort = [
+type TListSort = {
+  name: string;
+  sortProperty: string;
+};
+
+const listSort: Array<TListSort> = [
   {
     name: 'популярности',
     sortProperty: 'rating',
@@ -21,20 +26,20 @@ const listSort = [
   },
 ];
 
-const Sort = () => {
+const Sort: FC = () => {
   const dispatch = useDispatch();
   const { sortRanking, sortType } = useSelector(selectSort);
-  const sortRef = React.useRef(null);
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handlerClickSort = (objType) => {
+  const handlerClickSort = (objType: TListSort) => {
     dispatch(setSortType(objType));
     setIsOpen(false);
   };
 
-  React.useEffect(() => {
-    const handleClickOutside = (e) => {
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
       if (!e.composedPath().includes(sortRef.current)) {
         setIsOpen(false);
       }

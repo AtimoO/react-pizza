@@ -1,8 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 import imgCartEmpty from '../../assets/images/empty-cart.png';
 import { Link } from 'react-router-dom';
 
-const CartEmpty = () => {
+// const imgCartEmpty = require('../../assets/images/empty-cart.png');
+
+const CartEmpty: FC = () => {
   return (
     <div className="cart cart--empty">
       <h2>

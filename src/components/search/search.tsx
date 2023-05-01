@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 
 import styles from './search.module.scss';
@@ -7,9 +7,8 @@ import { setSearchValue } from '../../services/slices/sortSlice';
 
 const Search = () => {
   const dispatch = useDispatch();
-  // const { searchValue } = useSelector(selectSort);
-  const [value, setValue] = React.useState('');
-  const inputRef = React.useRef(null);
+  const [value, setValue] = useState('');
+  const inputRef = useRef<any>(null);
 
   const onClickClear = () => {
     setValue('');
@@ -22,14 +21,14 @@ const Search = () => {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateSearchValue = React.useCallback(
-    debounce((value) => {
+  const updateSearchValue = useCallback(
+    debounce((value: string) => {
       dispatch(setSearchValue(value));
     }, 300),
     [],
   );
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };
