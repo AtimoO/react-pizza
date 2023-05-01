@@ -1,15 +1,15 @@
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearItems, selectCart } from '../services/slices/cartSlice';
 import CartItem from '../components/cart-item/cart-item';
 import CartEmpty from '../components/cart-empty/cart-empty';
 
-export const CartPage = () => {
+export const CartPage: FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
 
-  const totalCount = items.reduce((prev, curr) => {
+  const totalCount = items.reduce((prev: number, curr: any) => {
     return prev + curr.count;
   }, 0);
 
@@ -98,7 +98,7 @@ export const CartPage = () => {
               </div>
             </div>
             <div className="content__items">
-              {items.map((pizza, index) => (
+              {items.map((pizza: any, index: number) => (
                 <CartItem {...pizza} key={index} />
               ))}
             </div>

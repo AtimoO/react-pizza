@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSort,
@@ -39,8 +39,8 @@ const Sort: FC = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (!e.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (e: Event) => {
+      if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
         setIsOpen(false);
       }
     };

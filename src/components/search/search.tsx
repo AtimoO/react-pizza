@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 
 import styles from './search.module.scss';
@@ -8,7 +8,7 @@ import { setSearchValue } from '../../services/slices/sortSlice';
 const Search = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState('');
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
     setValue('');
@@ -16,7 +16,7 @@ const Search = () => {
 
     // из-за анимации
     setTimeout(() => {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }, 0);
   };
 
@@ -28,7 +28,7 @@ const Search = () => {
     [],
   );
 
-  const onChangeInput = (e: any) => {
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };

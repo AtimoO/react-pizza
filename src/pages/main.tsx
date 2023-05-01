@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -22,12 +22,12 @@ export const MainPage = () => {
     useSelector(selectSort);
   const { items, status } = useSelector(selectPizza);
   const navigate = useNavigate();
-  const isSearch = React.useRef(false);
-  const isMounted = React.useRef(false);
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
 
   let showLimitPizzas = 4;
 
-  const pizzas = items.map((pizza, index) => (
+  const pizzas = items.map((pizza: any, index: number) => (
     <PizzaItem key={index} {...pizza} />
   ));
 
@@ -43,6 +43,7 @@ export const MainPage = () => {
     const urlSearch = searchValue === '' ? '' : `search=${searchValue}&`;
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         currentPage,
         showLimitPizzas,
@@ -54,11 +55,11 @@ export const MainPage = () => {
     );
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setPageCount(number));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(setFilters(params));
@@ -66,7 +67,7 @@ export const MainPage = () => {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
@@ -76,7 +77,7 @@ export const MainPage = () => {
     isSearch.current = false;
   }, [categoryId, sortType, sortRanking, searchValue, currentPage]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
         category: categoryId,

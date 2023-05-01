@@ -11,7 +11,7 @@ const mokeCategories = [
 
 interface ICategoriesProps {
   value: number;
-  onClickCategory: (id: number) => any;
+  onClickCategory: (id: number) => void;
 }
 
 const Categories: FC<ICategoriesProps> = ({ value, onClickCategory }) => {
