@@ -1,22 +1,13 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   addItem,
   minusItem,
   removeItem,
 } from '../../services/slices/cartSlice';
+import { ICartItem } from '../../utils/types';
 
-interface ICartProps {
-  id: string;
-  imageUrl: string;
-  title: string;
-  type: number;
-  size: number;
-  price: number;
-  count: number;
-}
-
-const CartItem: FC<ICartProps> = ({
+const CartItem: FC<ICartItem> = ({
   id,
   title,
   imageUrl,

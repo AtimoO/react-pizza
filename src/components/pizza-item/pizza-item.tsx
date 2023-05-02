@@ -23,8 +23,8 @@ const PizzaItem: FC<IPizza> = ({
   const handlerAddItem = () => {
     const item = {
       id,
-      imageUrl,
       title,
+      imageUrl,
       type: typeNames[activeType],
       size: sizes[activeSize],
       price,
