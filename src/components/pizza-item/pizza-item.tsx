@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../services/store';
 import { addItem, selectCartItemById } from '../../services/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { IPizza } from '../../utils/types';
+import { ICartItem, IPizza } from '../../utils/types';
 
 const PizzaItem: FC<IPizza> = ({
   id,
@@ -12,7 +13,7 @@ const PizzaItem: FC<IPizza> = ({
   sizes,
   types,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const cartItem = useSelector(selectCartItemById(id));
   const [activeType, setActiveType] = React.useState(types[0] === 1 ? 1 : 0);
@@ -21,13 +22,14 @@ const PizzaItem: FC<IPizza> = ({
   const typeNames = ['тонкое', 'традиционное'];
 
   const handlerAddItem = () => {
-    const item = {
+    const item: ICartItem = {
       id,
       title,
       imageUrl,
       type: typeNames[activeType],
       size: sizes[activeSize],
       price,
+      count: 0,
     };
     dispatch(addItem(item));
   };
@@ -88,7 +90,7 @@ const PizzaItem: FC<IPizza> = ({
             />
           </svg>
           <span>Добавить</span>
-          {cartItem?.count > 0 && <i>{cartItem.count}</i>}
+          {cartItem && cartItem?.count > 0 && <i>{cartItem?.count}</i>}
         </button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/store';
 import {
   addItem,
   minusItem,
@@ -16,10 +16,10 @@ const CartItem: FC<ICartItem> = ({
   count,
   price,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handlerAdd = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as ICartItem));
   };
 
   const handlerMinusItem = () => {

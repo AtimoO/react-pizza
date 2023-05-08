@@ -1,17 +1,14 @@
-import { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../services/store';
 import {
   selectSort,
   setSortRanking,
   setSortType,
 } from '../../services/slices/sortSlice';
+import { ISortType } from '../../utils/types';
 
-type TListSort = {
-  name: string;
-  sortProperty: string;
-};
-
-const listSort: Array<TListSort> = [
+const listSort: Array<ISortType> = [
   {
     name: 'популярности',
     sortProperty: 'rating',
@@ -27,13 +24,13 @@ const listSort: Array<TListSort> = [
 ];
 
 const Sort: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { sortRanking, sortType } = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handlerClickSort = (objType: TListSort) => {
+  const handlerClickSort = (objType: ISortType) => {
     dispatch(setSortType(objType));
     setIsOpen(false);
   };

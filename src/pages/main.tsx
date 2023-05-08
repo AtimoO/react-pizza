@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from 'react';
 import qs from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../services/store';
 import {
   selectSort,
   setCategory,
@@ -17,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchPizzas, selectPizza } from '../services/slices/pizzaSlice';
 
 export const MainPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { categoryId, sortRanking, sortType, currentPage, searchValue } =
     useSelector(selectSort);
   const { items, status } = useSelector(selectPizza);
@@ -43,7 +44,6 @@ export const MainPage = () => {
     const urlSearch = searchValue === '' ? '' : `search=${searchValue}&`;
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         currentPage,
         showLimitPizzas,
@@ -61,7 +61,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params: any = qs.parse(window.location.search.substring(1));
       dispatch(setFilters(params));
       isSearch.current = true;
     }
