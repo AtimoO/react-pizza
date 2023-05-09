@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IPizza } from '../utils/types';
 
-export const FullPizza: FC = () => {
+const FullPizza: FC = () => {
   const [data, setData] = useState<IPizza | null>(null);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -38,3 +38,5 @@ export const FullPizza: FC = () => {
     </div>
   );
 };
+
+export default FullPizza

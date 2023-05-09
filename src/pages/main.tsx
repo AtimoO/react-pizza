@@ -17,7 +17,7 @@ import Pagination from '../components/pagination/pagination';
 import { useNavigate } from 'react-router-dom';
 import { fetchPizzas, selectPizza } from '../services/slices/pizzaSlice';
 
-export const MainPage = () => {
+const MainPage = () => {
   const dispatch = useAppDispatch();
   const { categoryId, sortRanking, sortType, currentPage, searchValue } =
     useSelector(selectSort);
@@ -122,3 +122,5 @@ export const MainPage = () => {
     </div>
   );
 };
+
+export default MainPage;

@@ -6,7 +6,7 @@ import { clearItems, selectCart } from '../services/slices/cartSlice';
 import CartItem from '../components/cart-item/cart-item';
 import CartEmpty from '../components/cart-empty/cart-empty';
 
-export const CartPage: FC = () => {
+const CartPage: FC = () => {
   const dispatch = useAppDispatch();
   const { items, totalPrice } = useSelector(selectCart);
 
@@ -148,3 +148,5 @@ export const CartPage: FC = () => {
     </div>
   );
 };
+
+export default CartPage;
