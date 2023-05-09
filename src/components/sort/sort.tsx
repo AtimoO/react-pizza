@@ -1,12 +1,15 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { FC, memo, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../services/store';
 import {
-  selectSort,
   setSortRanking,
   setSortType,
 } from '../../services/slices/sortSlice';
 import { ISortType } from '../../utils/types';
+
+interface ISort {
+  sortRanking: string;
+  sortType: ISortType;
+}
 
 const listSort: Array<ISortType> = [
   {
@@ -23,9 +26,8 @@ const listSort: Array<ISortType> = [
   },
 ];
 
-const Sort: FC = () => {
+const Sort: FC<ISort> = ({ sortRanking, sortType }) => {
   const dispatch = useAppDispatch();
-  const { sortRanking, sortType } = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -92,4 +94,4 @@ const Sort: FC = () => {
     </div>
   );
 };
-export default Sort;
+export default memo(Sort);

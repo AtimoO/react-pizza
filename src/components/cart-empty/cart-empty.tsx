@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import imgCartEmpty from '../../assets/images/empty-cart.png';
 import { Link } from 'react-router-dom';
+import imgCartEmpty from '../../assets/images/empty-cart.png';
 
 // const imgCartEmpty = require('../../assets/images/empty-cart.png');
 

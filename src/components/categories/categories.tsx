@@ -1,13 +1,5 @@
-import { FC } from 'react';
-
-const mokeCategories = [
-  'Все',
-  'Мясные',
-  'Вегетарианская',
-  'Гриль',
-  'Острые',
-  'Закрытые',
-];
+import { FC, memo } from 'react';
+import { mokeCategories } from '../../utils/constants';
 
 interface ICategoriesProps {
   value: number;
@@ -31,4 +23,4 @@ const Categories: FC<ICategoriesProps> = ({ value, onClickCategory }) => {
     </div>
   );
 };
-export default Categories;
+export default memo(Categories);

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import ReactPaginate from 'react-paginate';
+
 import styles from './pagination.module.scss';
 
 interface IPaginationProps {

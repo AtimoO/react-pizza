@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ICartItem } from '../../utils/types';
 import { RootState } from '../store';
+import { calcTotalPrice } from '../../utils/calcTotalPrice';
 
-interface ICartSliceState {
+export interface ICartSliceState {
   totalPrice: number,
   items: Array<ICartItem>
 }
@@ -16,6 +17,11 @@ const cartSlice = createSlice({
   name: 'carts',
   initialState,
   reducers: {
+    setItems(state, action: PayloadAction<Array<ICartItem>>) {
+      state.items = action.payload;
+
+      state.totalPrice = calcTotalPrice(state.items);
+    },
     addItem(state, actions: PayloadAction<ICartItem>) {
       const findItem = state.items.find(
         (item) => item.id === actions.payload.id,
@@ -28,9 +34,7 @@ const cartSlice = createSlice({
           count: 1,
         });
       }
-      state.totalPrice = state.items.reduce((prev, curr) => {
-        return prev + curr.price * curr.count;
-      }, 0);
+      state.totalPrice = calcTotalPrice(state.items);
     },
     minusItem(state, actions: PayloadAction<string>) {
       const findItem = state.items.find((item) => item.id === actions.payload);
@@ -38,20 +42,20 @@ const cartSlice = createSlice({
         findItem.count--;
       } else {
         state.items = state.items.filter((item) => item.id !== actions.payload);
+        if (state.items) {
+          localStorage.removeItem('cart');
+        }
       }
-      state.totalPrice = state.items.reduce((prev, curr) => {
-        return prev + curr.price * curr.count;
-      }, 0);
+      state.totalPrice = calcTotalPrice(state.items);
     },
     removeItem(state, actions: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.id !== actions.payload);
-      state.totalPrice = state.items.reduce((prev, curr) => {
-        return prev + curr.price * curr.count;
-      }, 0);
+      state.totalPrice = calcTotalPrice(state.items);
     },
     clearItems(state) {
       state.items = [];
       state.totalPrice = 0;
+      localStorage.removeItem('cart');
     },
   },
 });
@@ -60,6 +64,6 @@ export const selectCart = (state: RootState) => state.cart;
 export const selectCartItemById = (id: string) => (state: RootState) =>
   state.cart.items.find((item) => item.id === id);
 
-export const { addItem, minusItem, clearItems, removeItem } = cartSlice.actions;
+export const { setItems, addItem, minusItem, clearItems, removeItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

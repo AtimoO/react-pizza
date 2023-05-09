@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../services/store';
@@ -59,6 +59,11 @@ export const MainPage = () => {
     dispatch(setPageCount(number));
   };
 
+  const onChangeCategory = useCallback(
+    (id: number) => dispatch(setCategory(id)),
+    [],
+  );
+
   useEffect(() => {
     if (window.location.search) {
       const params: any = qs.parse(window.location.search.substring(1));
@@ -102,11 +107,8 @@ export const MainPage = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onClickCategory={(id) => dispatch(setCategory(id))}
-        />
-        <Sort />
+        <Categories value={categoryId} onClickCategory={onChangeCategory} />
+        <Sort sortRanking={sortRanking} sortType={sortType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

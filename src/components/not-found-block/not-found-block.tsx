@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import styles from './not-found-block.module.scss';
 
 const NotFoundBlock: FC = () => {
